@@ -47,14 +47,20 @@ public class DataController : ControllerBase
             .ThenInclude(item => item.Events)
             .Take(amount);
 
-        return EnumerateIds(ordersQueryable);
-    }
-
-    private static IEnumerable<Guid> EnumerateIds(IQueryable<Order> ordersQueryable)
-    {
+        DateTime? minDate = null;
         foreach (var order in ordersQueryable)
         {
-            yield return order.Id;
+            if (minDate is null)
+            {
+                minDate = order.UtcCreatedAt;
+            }else if (order.UtcCreatedAt < minDate.Value)
+            {
+                minDate = order.UtcCreatedAt;
+            }
         }
+
+        return minDate;
     }
+
+    
 }
