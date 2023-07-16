@@ -11,9 +11,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<EtlDbContext>(optionsBuilder =>
-    optionsBuilder.UseNpgsql(
-        builder.Configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>().DbConnectionString)
-);
+{
+    var dbConnectionString = builder.Configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>().DbConnectionString;
+    optionsBuilder.UseNpgsql(dbConnectionString);
+});
 
 var app = builder.Build();
 
