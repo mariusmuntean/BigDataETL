@@ -28,4 +28,25 @@ public class EtlDbContext : DbContext
         modelBuilder.HasPostgresEnum<OrderStatus>();
         modelBuilder.HasPostgresEnum<LineItemStatus>();
     }
+
+    public override int SaveChanges()
+    {
+        SetCreationDateTime();
+
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        SetCreationDateTime();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void SetCreationDateTime()
+    {
+        foreach (var addedEntityEntry in this.ChangeTracker.Entries<BaseEntity>().Where(entry => entry.State == EntityState.Added))
+        {
+            addedEntityEntry.Entity.UtcCreatedAt = DateTime.UtcNow;
+        }
+    }
 }

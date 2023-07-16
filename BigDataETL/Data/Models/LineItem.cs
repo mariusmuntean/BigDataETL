@@ -1,9 +1,8 @@
 namespace BigDataETL.Data.Models;
 
-public class LineItem
+public class LineItem : BaseEntity
 {
     public Guid Id { get; set; }
-    public DateTime UtcCreatedAt { get; set; }
     public LineItemStatus Status { get; set; }
     public List<LineItemEvent> Events { get; set; }
 
