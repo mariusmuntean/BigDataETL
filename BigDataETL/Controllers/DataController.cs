@@ -37,4 +37,24 @@ public class DataController : ControllerBase
 
         return orders.Count;
     }
+    
+    [HttpGet("testget/{amount:int}")]
+    public object GetSomeOrderData([FromRoute] int amount)
+    {
+        var ordersQueryable = _etlDbContext.Orders.AsNoTracking()
+            .Include(order => order.Events)
+            .Include(order => order.LineItems)
+            .ThenInclude(item => item.Events)
+            .Take(amount);
+
+        return EnumerateIds(ordersQueryable);
+    }
+
+    private static IEnumerable<Guid> EnumerateIds(IQueryable<Order> ordersQueryable)
+    {
+        foreach (var order in ordersQueryable)
+        {
+            yield return order.Id;
+        }
+    }
 }
