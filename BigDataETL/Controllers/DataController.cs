@@ -1,6 +1,7 @@
 using BigDataETL.Data;
 using BigDataETL.Data.Models;
 using BigDataETL.Services.DataFaker;
+using EFCore.BulkExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,21 +23,18 @@ public class DataController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet("test")]
-    public async Task<ActionResult<object>> Test()
+    [HttpGet("test/")]
+    public async Task<ActionResult<object>> GetOrderCount()
     {
-        var x = await _etlDbContext.Orders.CountAsync();
-        _etlDbContext.Orders.Add(new Order()
-        {
-            Id = Guid.NewGuid(),
-            ExternalId = Guid.NewGuid().ToString(),
-            LineItems = new List<LineItem>(),
-            Events = new List<OrderEvent>(),
-            Status = OrderStatus.OS1
-        });
-        await _etlDbContext.SaveChangesAsync();
+        return await _etlDbContext.Orders.CountAsync();
+    }
 
-        var orders = _orderFaker.GenerateRandomOrders(2);
-        return orders;
+    [HttpPost("test/{amount:int}")]
+    public async Task<ActionResult<object>> AddRandomOrders([FromRoute] int amount)
+    {
+        var orders = _orderFaker.GenerateRandomOrders(amount);
+        await _etlDbContext.BulkInsertAsync(orders, config => config.IncludeGraph = true);
+
+        return orders.Count;
     }
 }
