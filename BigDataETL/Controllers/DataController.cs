@@ -55,4 +55,13 @@ public class DataController : ControllerBase
 
         return blockBlobClient;
     }
+    
+    [HttpPost("dumpefficient")]
+    public async Task<object> DumpOrderDataEfficient([FromQuery] IOrderProducerService.OrdersFilter ordersFilter)
+    {
+        var orders = _orderProducerService.GetOrders(ordersFilter);
+        var blockBlobClient = await _orderUploader.UploadOrdersEfficiently(orders, 10000);
+
+        return blockBlobClient;
+    }
 }
