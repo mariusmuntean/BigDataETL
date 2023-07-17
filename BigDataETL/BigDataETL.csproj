@@ -8,6 +8,7 @@
   </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Azure.Storage.Blobs" Version="12.17.0" />
         <PackageReference Include="Bogus" Version="34.0.2" />
         <PackageReference Include="EFCore.BulkExtensions.PostgreSql" Version="6.7.14" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.12">
