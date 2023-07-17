@@ -10,12 +10,15 @@ public static class ServicesRegistrator
     {
         serviceCollection.AddScoped<IOrderFaker, OrderFaker>();
         serviceCollection.AddScoped<IOrderProducerService, OrderProducerService>();
+        
         serviceCollection.AddSingleton(provider =>
         {
             var connectionStrings = provider.GetRequiredService<IConfiguration>().GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>();
             var sasUri = new Uri(connectionStrings.BlobContainerSasUri);
             return new BlobContainerClient(sasUri);
         });
+
+        serviceCollection.AddScoped<IOrderUploader, OrderUploader>();
 
         return serviceCollection;
     }
