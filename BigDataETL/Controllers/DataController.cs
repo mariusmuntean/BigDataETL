@@ -1,5 +1,6 @@
 using BigDataETL.Data;
 using BigDataETL.Data.Models;
+using BigDataETL.Services;
 using BigDataETL.Services.DataFaker;
 using EFCore.BulkExtensions;
 using Microsoft.AspNetCore.Mvc;
@@ -10,16 +11,16 @@ namespace BigDataETL.Controllers;
 [ApiController]
 public class DataController : ControllerBase
 {
-    private readonly IConfiguration _configuration;
     private readonly EtlDbContext _etlDbContext;
     private readonly IOrderFaker _orderFaker;
+    private readonly IOrderProducerService _orderProducerService;
     private readonly ILogger<DataController> _logger;
 
-    public DataController(IConfiguration configuration, EtlDbContext etlDbContext, IOrderFaker orderFaker, ILogger<DataController> logger)
+    public DataController(EtlDbContext etlDbContext, IOrderFaker orderFaker, IOrderProducerService orderProducerService, ILogger<DataController> logger)
     {
-        _configuration = configuration;
         _etlDbContext = etlDbContext;
         _orderFaker = orderFaker;
+        _orderProducerService = orderProducerService;
         _logger = logger;
     }
 
@@ -37,30 +38,10 @@ public class DataController : ControllerBase
 
         return orders.Count;
     }
-    
-    [HttpGet("testget/{amount:int}")]
-    public object GetSomeOrderData([FromRoute] int amount)
+
+    [HttpGet("order")]
+    public IAsyncEnumerable<Order> GetSomeOrderData([FromQuery] IOrderProducerService.OrdersFilter ordersFilter)
     {
-        var ordersQueryable = _etlDbContext.Orders.AsNoTracking()
-            .Include(order => order.Events)
-            .Include(order => order.LineItems)
-            .ThenInclude(item => item.Events)
-            .Take(amount);
-
-        DateTime? minDate = null;
-        foreach (var order in ordersQueryable)
-        {
-            if (minDate is null)
-            {
-                minDate = order.UtcCreatedAt;
-            }else if (order.UtcCreatedAt < minDate.Value)
-            {
-                minDate = order.UtcCreatedAt;
-            }
-        }
-
-        return minDate;
+        return _orderProducerService.GetOrders(ordersFilter);
     }
-
-    
 }
