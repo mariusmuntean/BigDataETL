@@ -20,7 +20,7 @@ Accept: */*;application/json;application/octet-stream
 
 ### Streams Orders to Block Blob - Space Efficient
 // Upload a certain amount of orders, that were created in a certain time range, to a blob, filling up each blob block to the max before starting a new one.
-POST {{baseurl}}/etlefficient?From=2020-01-01T00%3A00%3A00Z&To=2024-01-01T00%3A00%3A00Z&Amount=300
+POST {{baseurl}}/etlefficient?From=2020-01-01T00%3A00%3A00Z&To=2024-01-01T00%3A00%3A00Z&Amount=50
 Accept: */*;application/json;application/octet-stream
 
 ###
