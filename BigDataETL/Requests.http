@@ -1,6 +1,6 @@
 ### Create orders
 // Create an amount of orders, e.g. 100
-POST {{baseurl}}/order/100
+POST {{baseurl}}/order/10000
 Content-Type:
 
 ### Get order amount
@@ -10,17 +10,17 @@ Accept: application/json
 
 ### Stream Orders to Client
 // Stream a certain amount of orders created in a time range
-GET {{baseurl}}/order?From=2020-01-01T00%3A00%3A00Z&To=2024-01-01T00%3A00%3A00Z&Amount=300
+GET {{baseurl}}/order?From=2020-01-01T00%3A00%3A00Z&To=2024-01-01T00%3A00%3A00Z&Amount=5000
 Accept: */*;application/json;application/octet-stream
 
 ### Streams Orders to Block Blob
 // Upload a certain amount of orders, that were created in a certain time range, to a blob, one order per blob block.
-POST {{baseurl}}/etl?From=2020-01-01T00%3A00%3A00Z&To=2024-01-01T00%3A00%3A00Z&Amount=30
+POST {{baseurl}}/etl?From=2020-01-01T00%3A00%3A00Z&To=2024-01-01T00%3A00%3A00Z&Amount=5000
 Accept: */*;application/json;application/octet-stream
 
 ### Streams Orders to Block Blob - Space Efficient
 // Upload a certain amount of orders, that were created in a certain time range, to a blob, filling up each blob block to the max before starting a new one.
-POST {{baseurl}}/etlefficient?From=2020-01-01T00%3A00%3A00Z&To=2024-01-01T00%3A00%3A00Z&Amount=50
+POST {{baseurl}}/etlefficient?From=2020-01-01T00%3A00%3A00Z&To=2024-01-01T00%3A00%3A00Z&Amount=5000
 Accept: */*;application/json;application/octet-stream
 
 ###

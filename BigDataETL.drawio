@@ -1,0 +1,68 @@
+<mxfile host="Electron" modified="2023-07-19T22:46:13.624Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.1 Chrome/112.0.5615.204 Electron/24.6.1 Safari/537.36" etag="4FbtqL9LnoCW8LQlO1CR" version="21.6.1" type="device">
+  <diagram name="Page-1" id="hTC-Elfr-4jHR51_G5wj">
+    <mxGraphModel dx="753" dy="496" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4681" pageHeight="3300" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="iaal4ktGuOuvBLc9UNmJ-1" target="iaal4ktGuOuvBLc9UNmJ-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-5" value="Stream of Orders" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="iaal4ktGuOuvBLc9UNmJ-4">
+          <mxGeometry x="0.0353" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-1" value="Relational Data" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/databases/Azure_Database_PostgreSQL_Server_Group.svg;" vertex="1" parent="1">
+          <mxGeometry x="42.5" y="280" width="60" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="iaal4ktGuOuvBLc9UNmJ-2" target="iaal4ktGuOuvBLc9UNmJ-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-40" value="Blocks of JSON" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="iaal4ktGuOuvBLc9UNmJ-6">
+          <mxGeometry x="-0.1871" y="3" relative="1" as="geometry">
+            <mxPoint y="13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-2" value="BigDataETL" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/app_services/API_Management_Services.svg;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;spacingRight=6;spacing=0;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="50" width="65" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-3" value="Blob Store" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.storage_blob;" vertex="1" parent="1">
+          <mxGeometry x="342.5" y="57.5" width="50" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-17" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="124" y="40" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-12" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="iaal4ktGuOuvBLc9UNmJ-17">
+          <mxGeometry width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-13" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="iaal4ktGuOuvBLc9UNmJ-17">
+          <mxGeometry x="40" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-14" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="iaal4ktGuOuvBLc9UNmJ-17">
+          <mxGeometry x="80" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-15" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="iaal4ktGuOuvBLc9UNmJ-17">
+          <mxGeometry x="120" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-16" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="iaal4ktGuOuvBLc9UNmJ-17">
+          <mxGeometry x="160" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-18" value="" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.webicons.json_2;gradientColor=#DFDEDE" vertex="1" parent="iaal4ktGuOuvBLc9UNmJ-17">
+          <mxGeometry width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-19" value="" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.webicons.json_2;gradientColor=#DFDEDE" vertex="1" parent="1">
+          <mxGeometry x="164" y="40" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-20" value="" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.webicons.json_2;gradientColor=#DFDEDE" vertex="1" parent="1">
+          <mxGeometry x="204" y="40" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-21" value="" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.webicons.json_2;gradientColor=#DFDEDE" vertex="1" parent="1">
+          <mxGeometry x="244" y="40" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iaal4ktGuOuvBLc9UNmJ-22" value="" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.webicons.json_2;gradientColor=#DFDEDE" vertex="1" parent="1">
+          <mxGeometry x="284" y="40" width="30" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
