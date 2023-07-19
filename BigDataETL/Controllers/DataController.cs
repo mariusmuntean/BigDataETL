@@ -26,19 +26,19 @@ public class DataController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet("test/")]
-    public async Task<ActionResult<object>> GetOrderCount()
-    {
-        return await _etlDbContext.Orders.CountAsync();
-    }
-
-    [HttpPost("test/{amount:int}")]
+    [HttpPost("order/{amount:int}")]
     public async Task<ActionResult<object>> AddRandomOrders([FromRoute] int amount)
     {
         var orders = _orderFaker.GenerateRandomOrders(amount);
         await _etlDbContext.BulkInsertAsync(orders, config => config.IncludeGraph = true);
 
         return orders.Count;
+    }
+    
+    [HttpGet("order/count")]
+    public async Task<ActionResult<object>> GetOrderCount()
+    {
+        return await _etlDbContext.Orders.CountAsync();
     }
 
     [HttpGet("order")]
@@ -47,7 +47,7 @@ public class DataController : ControllerBase
         return _orderProducerService.GetOrders(ordersFilter);
     }
 
-    [HttpPost("dump")]
+    [HttpPost("etl")]
     public async Task<object> DumpOrderData([FromQuery] IOrderProducerService.OrdersFilter ordersFilter)
     {
         var orders = _orderProducerService.GetOrders(ordersFilter);
@@ -56,11 +56,11 @@ public class DataController : ControllerBase
         return blockBlobClient;
     }
     
-    [HttpPost("dumpefficient")]
+    [HttpPost("etlefficient")]
     public async Task<object> DumpOrderDataEfficient([FromQuery] IOrderProducerService.OrdersFilter ordersFilter)
     {
         var orders = _orderProducerService.GetOrders(ordersFilter);
-        var blockBlobClient = await _orderUploader.UploadOrdersEfficiently(orders, 1_000_000);
+        var blockBlobClient = await _orderUploader.UploadOrdersEfficiently(orders, 5_000_000);
 
         return blockBlobClient;
     }
