@@ -20,3 +20,6 @@ Deployed on Azure, with a Standard storage account, a B2 App Service Plan and a 
 * One Block Per Order: 1 minute 22 seconds for 5000 Orders -> 172.06MB Blob
 * Multiple Orders per Block: 55 seconds for 5000 Orders -> 172.06MB Blob
 * Straight download without Blob Store upload (return ```IAsyncEnumerable<Order>``` in controller method): 47 seconds
+
+Note: There's a Requests.http file to easily play around with the service. It allows creating dummy data, querying the amount of Orders, straight data download to the client and the two ways of streaming it to a blob.
+Adjust your file to point to your deployed system or leave it as is if you're testing against a locally running instance. There's also a little Swagger UI :D
