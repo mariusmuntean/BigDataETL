@@ -12,7 +12,6 @@ internal class OrderToBlobUploader : IOrderToBlobUploader
 {
     private readonly BlobContainerClient _blobContainerClient;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
-    private readonly JsonWriterOptions _jsonWriterOptions;
 
     public OrderToBlobUploader(BlobContainerClient blobContainerClient)
     {
@@ -21,11 +20,6 @@ internal class OrderToBlobUploader : IOrderToBlobUploader
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             WriteIndented = true,
-        };
-
-        _jsonWriterOptions = new JsonWriterOptions
-        {
-            Indented = true
         };
     }
 
