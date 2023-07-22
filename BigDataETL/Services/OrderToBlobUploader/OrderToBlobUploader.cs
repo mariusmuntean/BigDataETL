@@ -5,20 +5,15 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Specialized;
 using BigDataETL.Data.Models;
 
-namespace BigDataETL.Services;
+namespace BigDataETL.Services.OrderToBlobUploader;
 
-public interface IOrderUploader
-{
-    ValueTask<BlockBlobClient> UploadOrdersOnePerBlock(IAsyncEnumerable<Order> orders);
-    ValueTask<BlockBlobClient> UploadOrdersEfficiently(IAsyncEnumerable<Order> orders, int blockSize = 4 * 1_000_000);
-}
-
-public class OrderUploader : IOrderUploader
+/// <inheritdoc cref="IOrderToBlobUploader"/>
+internal class OrderToBlobUploader : IOrderToBlobUploader
 {
     private readonly BlobContainerClient _blobContainerClient;
-    private JsonSerializerOptions _jsonSerializerOptions;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public OrderUploader(BlobContainerClient blobContainerClient)
+    public OrderToBlobUploader(BlobContainerClient blobContainerClient)
     {
         _blobContainerClient = blobContainerClient;
         _jsonSerializerOptions = new JsonSerializerOptions()
@@ -28,14 +23,6 @@ public class OrderUploader : IOrderUploader
         };
     }
 
-    /// <summary>
-    /// Uploads the orders to a block blob such that each is serialized to a JSON string and added to the blob in a new block.
-    /// Note #1: the resulting blob will not be a valid JSON file, but one can easily interpret each block as a JSON object.
-    /// Note #2: if a single Order is smaller than the max block size, this strategy will work - read this for details https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs#about-block-blobs
-    /// Note #3: if there are no more than 50_000 Orders, this will work. That's the max block count for a block blob.
-    /// </summary>
-    /// <param name="orders"></param>
-    /// <returns></returns>
     public async ValueTask<BlockBlobClient> UploadOrdersOnePerBlock(IAsyncEnumerable<Order> orders)
     {
         var blobName = Guid.NewGuid() + ".json";

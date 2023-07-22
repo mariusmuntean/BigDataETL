@@ -1,6 +1,8 @@
 using Azure.Storage.Blobs;
 using BigDataETL.Data;
 using BigDataETL.Services.DataFaker;
+using BigDataETL.Services.OrderAccess;
+using BigDataETL.Services.OrderToBlobUploader;
 
 namespace BigDataETL.Services;
 
@@ -9,7 +11,7 @@ public static class ServicesRegistrator
     public static IServiceCollection RegisterCustomServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IOrderFaker, OrderFaker>();
-        serviceCollection.AddScoped<IOrderProducerService, OrderProducerService>();
+        serviceCollection.AddScoped<IOrderAccessService, OrderAccessService>();
         
         serviceCollection.AddSingleton(provider =>
         {
@@ -18,7 +20,7 @@ public static class ServicesRegistrator
             return new BlobContainerClient(sasUri);
         });
 
-        serviceCollection.AddScoped<IOrderUploader, OrderUploader>();
+        serviceCollection.AddScoped<IOrderToBlobUploader, OrderToBlobUploader.OrderToBlobUploader>();
 
         return serviceCollection;
     }

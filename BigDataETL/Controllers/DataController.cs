@@ -2,6 +2,8 @@ using BigDataETL.Data;
 using BigDataETL.Data.Models;
 using BigDataETL.Services;
 using BigDataETL.Services.DataFaker;
+using BigDataETL.Services.OrderAccess;
+using BigDataETL.Services.OrderToBlobUploader;
 using EFCore.BulkExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +15,16 @@ public class DataController : ControllerBase
 {
     private readonly EtlDbContext _etlDbContext;
     private readonly IOrderFaker _orderFaker;
-    private readonly IOrderUploader _orderUploader;
-    private readonly IOrderProducerService _orderProducerService;
+    private readonly IOrderToBlobUploader _orderToBlobUploader;
+    private readonly IOrderAccessService _orderAccessService;
     private readonly ILogger<DataController> _logger;
 
-    public DataController(EtlDbContext etlDbContext, IOrderFaker orderFaker, IOrderUploader orderUploader, IOrderProducerService orderProducerService, ILogger<DataController> logger)
+    public DataController(EtlDbContext etlDbContext, IOrderFaker orderFaker, IOrderToBlobUploader orderToBlobUploader, IOrderAccessService orderAccessService, ILogger<DataController> logger)
     {
         _etlDbContext = etlDbContext;
         _orderFaker = orderFaker;
-        _orderUploader = orderUploader;
-        _orderProducerService = orderProducerService;
+        _orderToBlobUploader = orderToBlobUploader;
+        _orderAccessService = orderAccessService;
         _logger = logger;
     }
 
@@ -42,25 +44,25 @@ public class DataController : ControllerBase
     }
 
     [HttpGet("order")]
-    public IAsyncEnumerable<Order> GetSomeOrderData([FromQuery] IOrderProducerService.OrdersFilter ordersFilter)
+    public IAsyncEnumerable<Order> GetSomeOrderData([FromQuery] IOrderAccessService.OrdersFilter ordersFilter)
     {
-        return _orderProducerService.GetOrders(ordersFilter);
+        return _orderAccessService.GetOrders(ordersFilter);
     }
 
     [HttpPost("etl")]
-    public async Task<object> DumpOrderData([FromQuery] IOrderProducerService.OrdersFilter ordersFilter)
+    public async Task<object> DumpOrderData([FromQuery] IOrderAccessService.OrdersFilter ordersFilter)
     {
-        var orders = _orderProducerService.GetOrders(ordersFilter);
-        var blockBlobClient = await _orderUploader.UploadOrdersOnePerBlock(orders);
+        var orders = _orderAccessService.GetOrders(ordersFilter);
+        var blockBlobClient = await _orderToBlobUploader.UploadOrdersOnePerBlock(orders);
 
         return blockBlobClient;
     }
     
     [HttpPost("etlefficient")]
-    public async Task<object> DumpOrderDataEfficient([FromQuery] IOrderProducerService.OrdersFilter ordersFilter)
+    public async Task<object> DumpOrderDataEfficient([FromQuery] IOrderAccessService.OrdersFilter ordersFilter)
     {
-        var orders = _orderProducerService.GetOrders(ordersFilter);
-        var blockBlobClient = await _orderUploader.UploadOrdersEfficiently(orders, 5_000_000);
+        var orders = _orderAccessService.GetOrders(ordersFilter);
+        var blockBlobClient = await _orderToBlobUploader.UploadOrdersEfficiently(orders, 5_000_000);
 
         return blockBlobClient;
     }

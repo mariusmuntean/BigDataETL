@@ -2,25 +2,18 @@ using BigDataETL.Data;
 using BigDataETL.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BigDataETL.Services;
+namespace BigDataETL.Services.OrderAccess;
 
-public interface IOrderProducerService
-{
-    IAsyncEnumerable<Order> GetOrders(OrdersFilter ordersFilter);
-
-    public record OrdersFilter(DateTime From, DateTime To, int? Amount);
-}
-
-internal class OrderProducerService : IOrderProducerService
+internal class OrderAccessService : IOrderAccessService
 {
     private readonly EtlDbContext _etlDbContext;
 
-    public OrderProducerService(EtlDbContext etlDbContext)
+    public OrderAccessService(EtlDbContext etlDbContext)
     {
         _etlDbContext = etlDbContext;
     }
 
-    public IAsyncEnumerable<Order> GetOrders(IOrderProducerService.OrdersFilter ordersFilter)
+    public IAsyncEnumerable<Order> GetOrders(IOrderAccessService.OrdersFilter ordersFilter)
     {
         var ordersQueryable = _etlDbContext.Orders.AsNoTracking()
             .Include(order => order.Events)
