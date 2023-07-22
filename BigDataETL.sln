@@ -5,7 +5,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{C7B56269-7E70-4495-902E-165C7899F991}"
 	ProjectSection(SolutionItems) = preProject
 		BigDataETL.drawio = BigDataETL.drawio
-		BigDataETL.drawio.png = BigDataETL.drawio.png
 		BigDataETL.png = BigDataETL.png
 		LICENSE = LICENSE
 		README.md = README.md
