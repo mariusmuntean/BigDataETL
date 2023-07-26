@@ -64,7 +64,7 @@ internal class OrderToBlobUploader : IOrderToBlobUploader
         return blobClient;
     }
 
-    private async IAsyncEnumerable<Stream> GetOrderStreams(IAsyncEnumerable<Order> orders, int blockSize = 4 * 1_000_000)
+    private static async IAsyncEnumerable<Stream> GetOrderStreams(IAsyncEnumerable<Order> orders, int blockSize = 4 * 1_000_000)
     {
         var tempBuffer = new byte[blockSize];
         var currentStream = new MemoryStream();
@@ -73,35 +73,43 @@ internal class OrderToBlobUploader : IOrderToBlobUploader
         // Start JSON content and add an 'orders' array
         await orderWriter.Start(currentStream);
 
+        // Add each order and return stream chunks if necessary.
         await foreach (var order in orders)
         {
             // Add current order to the stream
             await orderWriter.WriteOrder(currentStream, order);
 
-            // While the stream is larger than the defined block size, return blockSize chunks from it.
-            while (currentStream.Length > blockSize)
+            // While there is more than a blockSize of data in the stream, return chunks from it.
+            currentStream.Seek(0, SeekOrigin.Begin);
+            while (currentStream.Length - currentStream.Position > blockSize)
             {
-                currentStream.Seek(0, SeekOrigin.Begin);
-
-                // Return a new stream with blockSize bytes from the current stream
+                // Return a new stream chunk with blockSize bytes from the current stream
                 var readByteCount = await currentStream.ReadAsync(tempBuffer, 0, blockSize);
-                yield return new MemoryStream(tempBuffer, 0, readByteCount);
-
-                // Copy the remaining bytes into a new stream and set that one as the current stream
-                var newStream = new MemoryStream();
-                await currentStream.CopyToAsync(newStream);
-                currentStream = newStream;
+                var streamChunk = new MemoryStream(tempBuffer, 0, readByteCount);
+                yield return streamChunk;
             }
+
+            // Copy the remaining bytes into a new stream and set that one as the current stream.
+            // Otherwise the stream will hold all the serialized orders simultaneously.
+            var newStream = new MemoryStream();
+            if (currentStream.Position < currentStream.Length)
+            {
+                await currentStream.CopyToAsync(newStream);
+            }
+
+            currentStream = newStream;
         }
 
         // Close the JSON array property and object
         await orderWriter.End(currentStream);
 
-        // Return the last remaining bytes from the stream, if any
-        if (currentStream.Length > 0)
+        // Return the current stream in chunks, as it might have exceeded the blockSize after the last write.
+        currentStream.Seek(0, SeekOrigin.Begin);
+        while (currentStream.Position < currentStream.Length)
         {
-            currentStream.Seek(0, SeekOrigin.Begin);
-            yield return currentStream;
+            var readByteCount = await currentStream.ReadAsync(tempBuffer, 0, blockSize);
+            var streamChunk = new MemoryStream(tempBuffer, 0, readByteCount);
+            yield return streamChunk;
         }
     }
 }

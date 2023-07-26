@@ -62,7 +62,7 @@ public class DataController : ControllerBase
     public async Task<object> DumpOrderDataEfficient([FromQuery] IOrderAccessService.OrdersFilter ordersFilter)
     {
         var orders = _orderAccessService.GetOrders(ordersFilter);
-        var blockBlobClient = await _orderToBlobUploader.UploadOrdersEfficiently(orders, 5_000_000);
+        var blockBlobClient = await _orderToBlobUploader.UploadOrdersEfficiently(orders, 4_000_000);
 
         return blockBlobClient;
     }
